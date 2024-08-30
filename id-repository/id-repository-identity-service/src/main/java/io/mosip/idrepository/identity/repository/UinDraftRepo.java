@@ -1,6 +1,5 @@
 package io.mosip.idrepository.identity.repository;
 
-import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -66,5 +65,4 @@ public interface UinDraftRepo extends JpaRepository<UinDraft, String> {
 	 * @return true, if successful.
 	 */
 	boolean existsByUinHash(String uinHash);
-
 }

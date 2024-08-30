@@ -17,13 +17,11 @@ import static io.mosip.idrepository.core.constant.IdRepoErrorConstants.UIN_RETRI
 import static io.mosip.idrepository.core.constant.IdRepoErrorConstants.VID_GENERATION_FAILED;
 import static io.mosip.idrepository.core.constant.IdRepoErrorConstants.VID_POLICY_FAILED;
 
-import java.io.Serializable;
 import java.security.MessageDigest;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -32,13 +30,8 @@ import java.util.stream.Collectors;
 import javax.annotation.Resource;
 
 import org.hibernate.exception.JDBCConnectionException;
-import org.mvel2.MVEL;
-import org.mvel2.integration.VariableResolverFactory;
-import org.mvel2.integration.impl.MapVariableResolverFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.env.Environment;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.TransactionException;
@@ -174,15 +167,6 @@ public class VidServiceImpl implements VidService<VidRequestDTO, ResponseWrapper
 	@Autowired
 	private IdRepoWebSubHelper websubHelper;
 	
-	@Autowired
-	private Environment env;
-
-	@Autowired(required = true)
-	@Qualifier("mask")
-	VariableResolverFactory functionFactory;
-	
-	@Value("${mosip.mask.function.identityAttributes}")
-	private String identityAttribute;
 	/*
 	 * (non-Javadoc)
 	 * 
@@ -612,9 +596,10 @@ public class VidServiceImpl implements VidService<VidRequestDTO, ResponseWrapper
 	}
 
 	private VidInfoDTO createVidInfo(Vid vid, Map<String, String> idHashAttributes) {
-
-		return new VidInfoDTO(vid.getVid(), vid.getVidTypeCode(),vid.getExpiryDTimes(), vid.getGeneratedDTimes(),
-				policyProvider.getPolicy(vid.getVidTypeCode()).getAllowedTransactions(),
+		return new VidInfoDTO(vid.getVid(), 
+				vid.getVidTypeCode(),
+				vid.getExpiryDTimes(), 
+				policyProvider.getPolicy(vid.getVidTypeCode()).getAllowedTransactions(), 
 				idHashAttributes);
 	}
 
@@ -753,14 +738,4 @@ public class VidServiceImpl implements VidService<VidRequestDTO, ResponseWrapper
 		eventModel.setEvent(event);
 		websubHelper.publishEvent(eventModel);
 	}
-	private String maskData(String maskData) {
-		Map<String, String> context = new HashMap<>();
-		context.put("maskData", maskData);
-		VariableResolverFactory myVarFactory = new MapVariableResolverFactory(context);
-		myVarFactory.setNextFactory(functionFactory);
-		Serializable serializable = MVEL.compileExpression(identityAttribute + "(maskData);");
-		return MVEL.executeExpression(serializable, context, myVarFactory, String.class);
-	}
-
 }
-

@@ -46,7 +46,6 @@ public class IdentityMapping {
 		private ResidenceStatus residenceStatus;
 		private FullAddress fullAddress;
 		private SelectedHandles selectedHandles;
-
 	}
 
 	@Data
@@ -131,12 +130,7 @@ public class IdentityMapping {
 	@Data
 	@NoArgsConstructor
 	public static class Name {
-		private String value;		
-		public List<String> getValueList() {
-			return Arrays.asList(Objects.nonNull(value) ? value.split(",") : new String[] { "" }).stream()
-					.map(StringUtils::trim).filter(StringUtils::isNotBlank).collect(Collectors.toList());
-		}
-		
+		private String value;
 	}
 
 	@Data
@@ -251,5 +245,4 @@ public class IdentityMapping {
 	public static class SelectedHandles {
 		private String value;
 	}
-
 }

@@ -153,13 +153,18 @@ public class IdRepoServiceHelper {
             if(identityMap.containsKey(selectedHandlesFieldId) && Objects.nonNull(identityMap.get(selectedHandlesFieldId))) {
                 mosipLogger.debug(IdRepoSecurityManager.getUser(), ID_REPO_SERVICE_HELPER, "getSelectedHandles",
                         requestMap.get(selectedHandlesFieldId));
-                List<String> selectedHandleFieldIds = (List<String>) identityMap.get(selectedHandlesFieldId);
+                List<String> selectedHandleFieldIds = null;
+                if (identityMap.get(selectedHandlesFieldId) instanceof String) {
+                    selectedHandleFieldIds = Arrays.asList(((String) identityMap.get(selectedHandlesFieldId)).split(","));
+                } else {
+                    selectedHandleFieldIds = (List<String>) identityMap.get(selectedHandlesFieldId);
+                }
                 return selectedHandleFieldIds.stream()
                         .filter( handleFieldId -> supportedHandlesInSchema.get(schemaVersion).contains(handleFieldId))
                         .collect(Collectors.toMap(handleName->handleName,
                                 handleFieldId-> {
                                     String handle = ((String) identityMap.get(handleFieldId))
-                                            .concat(getHandlePostfix(handleFieldId))
+                                    		.concat(getHandlePostfix(handleFieldId))
                                             .toLowerCase(Locale.ROOT);
                                     return new HandleDto(handle, getHandleHash(handle));
                                 }));

@@ -191,7 +191,7 @@ public class AuthTypeStatusImpl implements AuthtypeStatusService {
 		AuthtypeLock authtypeLock = new AuthtypeLock();
 		authtypeLock.setHashedUin(uinHash);
 		String authType = authtypeStatus.getAuthType();
-		if (authType.equalsIgnoreCase("bio") || authType.equalsIgnoreCase("otp")) {
+		if (authType.equalsIgnoreCase("bio")) {
 			authType = authType + "-" + authtypeStatus.getAuthSubType();
 		}
 		authtypeLock.setAuthtypecode(authType);

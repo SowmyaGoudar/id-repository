@@ -1,21 +1,7 @@
 package io.mosip.credential.request.generator.test.controller;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import io.mosip.credential.request.generator.controller.CredentialRequestGeneratorController;
-import io.mosip.credential.request.generator.dto.CredentialStatusEvent;
-import io.mosip.credential.request.generator.init.CredentialInstializer;
-import io.mosip.credential.request.generator.init.SubscribeEvent;
-import io.mosip.credential.request.generator.service.CredentialRequestService;
-import io.mosip.credential.request.generator.test.TestBootApplication;
-import io.mosip.credential.request.generator.test.config.TestConfig;
-import io.mosip.credential.request.generator.validator.RequestValidator;
-import io.mosip.idrepository.core.dto.CredentialIssueRequestDto;
-import io.mosip.idrepository.core.dto.CredentialIssueResponse;
-import io.mosip.idrepository.core.dto.CredentialIssueStatusResponse;
-import io.mosip.idrepository.core.dto.CredentialRequestIdsDto;
-import io.mosip.idrepository.core.dto.PageDto;
-import io.mosip.kernel.core.http.ResponseWrapper;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -35,7 +21,23 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import io.mosip.credential.request.generator.controller.CredentialRequestGeneratorController;
+import io.mosip.credential.request.generator.dto.CredentialStatusEvent;
+import io.mosip.credential.request.generator.init.CredentialInstializer;
+import io.mosip.credential.request.generator.init.SubscribeEvent;
+import io.mosip.credential.request.generator.service.CredentialRequestService;
+import io.mosip.credential.request.generator.test.TestBootApplication;
+import io.mosip.credential.request.generator.test.config.TestConfig;
+import io.mosip.credential.request.generator.validator.RequestValidator;
+import io.mosip.idrepository.core.dto.CredentialIssueRequestDto;
+import io.mosip.idrepository.core.dto.CredentialIssueResponse;
+import io.mosip.idrepository.core.dto.CredentialIssueStatusResponse;
+import io.mosip.idrepository.core.dto.CredentialRequestIdsDto;
+import io.mosip.idrepository.core.dto.PageDto;
+import io.mosip.kernel.core.http.ResponseWrapper;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = TestConfig.class)
@@ -45,9 +47,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 public class CredentialRequestGeneratorControllerTest {
 	@Mock
 	private CredentialRequestService credentialRequestService;
-
-	@Mock
-	private RequestValidator requestValidator;
 
 	@InjectMocks
 	private CredentialRequestGeneratorController credentialRequestGeneratorController;
@@ -74,6 +73,9 @@ public class CredentialRequestGeneratorControllerTest {
 
 	@Mock
 	JobLauncher jobLauncher;
+
+	@Mock
+	private RequestValidator requestValidator;
 
 	@Before
 	public void setup() throws Exception {
