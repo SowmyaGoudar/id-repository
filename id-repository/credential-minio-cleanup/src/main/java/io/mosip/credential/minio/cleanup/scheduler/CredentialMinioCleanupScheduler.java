@@ -42,6 +42,7 @@ public class CredentialMinioCleanupScheduler {
 	@Scheduled(cron = "${mosip.cleanup.minio.scheduler.cronexpression}")
     public void scheduleTask()
     {    try {
+
 			LOGGER.info(IdRepoSecurityManager.getUser(), "CleanUpMinioScheduler", "credentials", "scheuler started");
 			String[] statusCodeArray = statusCodes.split(",");
 		 if(statusCodeArray.length>0) {
@@ -64,6 +65,7 @@ public class CredentialMinioCleanupScheduler {
 
 						}
 					}
+
 					}
 				}
 			}
