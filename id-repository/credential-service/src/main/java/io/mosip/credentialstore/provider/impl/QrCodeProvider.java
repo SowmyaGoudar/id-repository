@@ -106,12 +106,14 @@ public class QrCodeProvider extends CredentialProvider {
 			json.put(JsonConstants.ISSUEDTO, credentialServiceRequestDto.getIssuer());
 			json.put(JsonConstants.CONSENT, "");
 			json.put(JsonConstants.CREDENTIALSUBJECT, formattedMap);
+			System.out.println(formattedMap);
 			json.put(JsonConstants.PROTECTEDATTRIBUTES, protectedAttributes);
 			dataProviderResponse.setJSON(json);
 
 			dataProviderResponse.setCredentialId(credentialId);
 
 			dataProviderResponse.setIssuanceDate(localdatetime);
+
 			LOGGER.debug(IdRepoSecurityManager.getUser(), LoggerFileConstant.REQUEST_ID.toString(), requestId,
 					"end formatting credential data");
 			return dataProviderResponse;
