@@ -58,6 +58,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.mosip.credentialstore.constants.CredentialConstants;
 import io.mosip.credentialstore.constants.JsonConstants;
 import io.mosip.credentialstore.constants.LoggerFileConstant;
+import io.mosip.credentialstore.constants.Position;
 import io.mosip.credentialstore.dto.AllowedKycDto;
 import io.mosip.credentialstore.dto.BestFingerDto;
 import io.mosip.credentialstore.dto.DataProviderResponse;
@@ -92,7 +93,6 @@ import io.mosip.kernel.core.exception.ExceptionUtils;
 import io.mosip.kernel.core.logger.spi.Logger;
 import io.mosip.kernel.core.util.CryptoUtil;
 import io.mosip.kernel.core.util.DateUtils;
-
 /**
  * The Interface CredentialProvider.
  * 
@@ -543,7 +543,8 @@ public class CredentialProvider {
 				String bestFinger = Collections.max(subTypeScoreMap.entrySet(), Map.Entry.comparingByValue())
 						.getKey();
 				String fingerPrint = getBiometric(bestFinger, subtypeBIRMap);
-				bestFingerDto = new BestFingerDto(bestFinger, fingerPrint);
+				int position = Position.getValueFromKey(bestFinger);
+				bestFingerDto = new BestFingerDto(position, fingerPrint);
 				bestFingerList.add(bestFingerDto);
 		}
 	}
